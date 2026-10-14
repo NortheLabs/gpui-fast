@@ -1357,18 +1357,6 @@ pub(crate) fn finish_retained_frame(window: &mut Window) {
     window.next_frame.retained.finish_frame();
     crate::fast::layers::paint::finish_frame(window);
     crate::fast::layers::finish_frame(window);
-    #[cfg(any(test, feature = "test-support"))]
-    if window.next_frame.retained.reused_any() {
-        // Reused subtrees do not paint, and the bounds they would have
-        // recorded for tests to find them by are last frame's.
-        for (selector, bounds) in &window.rendered_frame.debug_bounds {
-            window
-                .next_frame
-                .debug_bounds
-                .entry(selector.clone())
-                .or_insert(*bounds);
-        }
-    }
 }
 
 // These reach into the window's layout state, for views drawn again at the
