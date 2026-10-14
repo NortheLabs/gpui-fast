@@ -1395,6 +1395,18 @@ impl Window {
 #[doc(hidden)]
 pub struct ViewLayoutState(ViewLayout);
 
+#[cfg(any(test, feature = "test-support"))]
+impl ViewLayoutState {
+    /// The element the view built and laid out, when it was built rather
+    /// than laid out from a cache or from last frame.
+    pub fn built_element(&mut self) -> Option<&mut AnyElement> {
+        match &mut self.0 {
+            ViewLayout::Built { element, .. } => Some(element),
+            _ => None,
+        }
+    }
+}
+
 /// What a view's prepaint left for its paint.
 #[doc(hidden)]
 pub struct ViewPrepaintState(ViewPrepaint);
